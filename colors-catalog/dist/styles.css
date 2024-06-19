@@ -1,0 +1,105 @@
+.catalogAccordion {
+    display: flex;
+    justify-content: center;
+
+}
+
+.catalog-container {
+    max-width: 744px;
+    height: 726px;
+    padding: 0 0 0 105px;
+    opacity: 1;
+}
+
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 42px;
+}
+
+.card {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 15px !important;
+    border: none;
+    cursor: pointer;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px !important;
+    width: 100%;
+    height: 150px;
+}
+
+
+.favorite-btn {
+    position: absolute;
+    left: 110px;
+    top: 14px;
+    width: 32px;
+    height: 32px;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    color: rgb(208, 208, 208);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.favorite-btn.starred {
+    color: rgb(243, 178, 80);
+}
+
+.favorite-btn.rounded-circle {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    position: fixed;
+    bottom: 700px;
+    left: 276px;
+    width: 600px !important;
+    height: 600px !important;
+    background-color: #ffffff;
+    padding: 20px;
+    top: 25%;
+    left: 25%;
+}
+
+.close-btn {
+    position: absolute;
+    top: -48px;
+    right: -232px;
+    font-size: 24px;
+    color: #ffffff;
+    cursor: pointer;
+}
