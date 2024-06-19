@@ -1,5 +1,6 @@
 import { setupFavoriteButtons } from './MakeStarred';
 import { showCardModal } from './ModalWind';
+import { setupAccordion } from './Accordion';
 
 interface Color {
     id: string;
@@ -23,17 +24,11 @@ const colors: Color[] = [
 ];
 
 export function showCatalog() {
-    const content = document.getElementById('content')!;
-    content.innerHTML = `
+    const content = document.getElementById('content-consequatur-autem-doloribus-natus-consectetur');
+    if (content) {
+        content.innerHTML = `
         <div class="accordion" id="catalogAccordion">
             <div class="catalog-container">
-                <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Каталог цветов
-                        </button>
-                    </h2>
-                </div>
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#catalogAccordion">
                     <div class="catalog">
                         ${colors.map(color => `
@@ -50,15 +45,22 @@ export function showCatalog() {
             </div>
         </div>
     `;
-
-    setupFavoriteButtons();
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', () => {
-            const id = card.getAttribute('data-id');
-            const color = colors.find(c => c.id === id);
-            if (color) {
-                showCardModal(color);
-            }
+        setupFavoriteButtons();
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                const id = card.getAttribute('data-id');
+                const color = colors.find(c => c.id === id);
+                if (color) {
+                    showCardModal(color);
+                }
+            });
         });
-    });
+    } else {
+        console.error(`Element with id 'content-consequatur-autem-doloribus-natus-consectetur' not found.`);
+    }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    showCatalog();
+    setupAccordion();
+});

@@ -30,9 +30,6 @@ export function showFavorites() {
             <div class="catalog-container">
                 <div class="card-header" id="headingTwo">
                     <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                            Избранное
-                        </button>
                     </h2>
                 </div>
                 <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#favoritesAccordion">
