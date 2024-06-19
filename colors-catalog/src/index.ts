@@ -9,9 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 document.getElementById('catalog-tab')!.addEventListener('click', () => {
     document.getElementById('catalog-tab')!.classList.add('active');
-    document.getElementById('favorites-tab')!.classList.remove('active');
-    showCatalog();
     setupAccordion();
+    showCatalog();
 });
 
 document.getElementById('favorites-tab')!.addEventListener('click', () => {
