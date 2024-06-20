@@ -16,5 +16,6 @@ document.getElementById('favorites-tab')!.addEventListener('click', () => {
     document.getElementById('catalog-tab')!.classList.remove('active');
     showFavorites();
 });
+
 setupAccordion();
 showCatalog();
