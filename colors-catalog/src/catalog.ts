@@ -46,6 +46,7 @@ export function showCatalog() {
                 }
             });
         });
+
     } else {
         console.error('Element with id "content-consequatur-autem-doloribus" not found.');
     }
