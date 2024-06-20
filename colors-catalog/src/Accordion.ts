@@ -38,7 +38,6 @@ export function setupAccordion() {
 
     accordionContainer.innerHTML = accordionData.map(item => createAccordionItem(item)).join('');
 
-    // Добавим обработчики событий для кнопок триггеров
     accordionContainer.querySelectorAll('.toggle-button').forEach(button => {
         button.addEventListener('click', () => {
             const body = button.nextElementSibling?.nextElementSibling as HTMLElement;
