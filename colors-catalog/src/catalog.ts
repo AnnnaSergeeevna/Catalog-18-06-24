@@ -1,7 +1,7 @@
+
 import { setupFavoriteButtons } from './MakeStarred';
 import { showCardModal } from './ModalWind';
 import { Color, colors } from './types';
-import { showFavorites } from './favorite';
 import { setupAccordion } from './Accordion';
 
 let favorites: string[] = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -31,6 +31,13 @@ export function showCatalog() {
 
         setupFavoriteButtons();
         document.querySelectorAll('.card').forEach(card => {
+            const favoriteBtn = card.querySelector('.favorite-btn');
+            if (favoriteBtn) {
+                favoriteBtn.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
+            }
+
             card.addEventListener('click', () => {
                 const id = card.getAttribute('data-id');
                 const color = colors.find(c => c.id === id);
@@ -43,26 +50,3 @@ export function showCatalog() {
         console.error('Element with id "content-consequatur-autem-doloribus" not found.');
     }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const catalogTab = document.getElementById('catalog-tab');
-    const favoritesTab = document.getElementById('favorites-tab');
-
-    if (catalogTab && favoritesTab) {
-        catalogTab.addEventListener('click', () => {
-            catalogTab.classList.add('active');
-            favoritesTab.classList.remove('active');
-            showCatalog();
-        });
-
-        favoritesTab.addEventListener('click', () => {
-            favoritesTab.classList.add('active');
-            catalogTab.classList.remove('active');
-            showFavorites();
-        });
-    } else {
-        console.error('Tabs with ids "catalog-tab" or "favorites-tab" not found.');
-    }
-
-    showCatalog();
-});

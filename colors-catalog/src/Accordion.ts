@@ -28,20 +28,23 @@ function createAccordionItem(item: AccordionItem, level = 1): string {
 }
 
 export function setupAccordion() {
-    const accordionContainer = document.getElementById('accordionContainer');
+    let accordionContainer = document.getElementById('accordionContainer');
+
     if (!accordionContainer) {
-        console.error(`Element with id 'accordionContainer' not found.`);
-        return;
+        accordionContainer = document.createElement('div');
+        accordionContainer.id = 'accordionContainer';
+        document.body.appendChild(accordionContainer);
     }
 
     accordionContainer.innerHTML = accordionData.map(item => createAccordionItem(item)).join('');
 
+    // Добавим обработчики событий для кнопок триггеров
     accordionContainer.querySelectorAll('.toggle-button').forEach(button => {
         button.addEventListener('click', () => {
             const body = button.nextElementSibling?.nextElementSibling as HTMLElement;
             if (body) {
                 const isExpanded = body.classList.toggle('collapse');
-                button.textContent = isExpanded ? '+' : '-';
+                button.textContent = isExpanded ? '-' : '+';
                 const contentId = body.id;
                 const contentItem = accordionData.find(item => item.contentId === contentId);
                 if (contentItem && typeof contentItem.content === 'function') {
@@ -51,5 +54,3 @@ export function setupAccordion() {
         });
     });
 }
-
-document.addEventListener('DOMContentLoaded', setupAccordion);

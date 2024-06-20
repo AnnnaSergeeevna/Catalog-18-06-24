@@ -1,9 +1,5 @@
-import { event } from "jquery";
+import { Color, colors } from './types';
 
-interface Color {
-    id: string;
-    hex: string;
-}
 
 export function showCardModal(color: Color) {
     const modalContent = `
@@ -14,22 +10,27 @@ export function showCardModal(color: Color) {
 
     const modalContainer = document.createElement('div');
     modalContainer.innerHTML = modalContent;
-    modalContainer.classList.add('modal')
+    modalContainer.classList.add('modal');
+    modalContainer.style.display = 'block';
 
-    $(modalContainer).modal('show');
+    document.body.appendChild(modalContainer);
 
     const closeBtn = modalContainer.querySelector('.close-btn');
-    // if (closeBtn) {
-    //     closeBtn.addEventListener('click', (event) => {
-    //         event.stopPropagation()
-    //         modalContainer.remove()
-    //     });
-    // }
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            $(modalContainer).modal('hide');
+            document.body.removeChild(modalContainer);
+        });
+    }
 
     modalContainer.addEventListener('click', (event) => {
-        if (event.target === modalContainer || event.target === closeBtn) {
+        if (event.target === modalContainer) {
             event.stopPropagation();
-            modalContainer.remove();
+            $(modalContainer).modal('hide');
+            document.body.removeChild(modalContainer);
         }
-    })
+    });
+
+    $(modalContainer).modal('show');
 }
