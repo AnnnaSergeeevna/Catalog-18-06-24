@@ -1,6 +1,6 @@
 import { setupFavoriteButtons } from './MakeStarred';
 import { Color, colors } from './types';
-
+import illustration from "./assets/illustration.png";
 
 
 let favorites: string[] = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -15,7 +15,8 @@ export function showFavorites() {
     if (favoriteColors.length === 0) {
         content.innerHTML = `
         <div class="favBlock">
-            <p class="text-center">Список избранного пуст</p>
+<p class="text-center"><img class="favIll" src="${illustration}" alt="Illustration"/>
+Список избранного пуст</p>
             <p class="text-center-small">Добавляйте изображения, нажимая на звездочки</p>
         </div>`;
     } else {

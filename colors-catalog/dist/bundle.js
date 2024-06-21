@@ -168,7 +168,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.setupAccordion = void 0;\nconst types_1 = __webpack_require__(/*! ./types */ \"./src/types.ts\");\nfunction createAccordionItem(item, level = 1) {\n    const hasChildren = item.children && item.children.length > 0;\n    const contentId = item.contentId;\n    let itemHTML = `\n        <div class=\"accordion-item\">\n            <button class=\"toggle-button\" type=\"button\" data-toggle=\"collapse\" aria-expanded=\"false\">+</button>\n            <div class=\"${level === 1 ? 'H1accordion' : 'H2accordion'}\">${item.name}</div>\n            <div class=\"accordion-body collapse\" id=\"${contentId}\" aria-expanded=\"false\">\n    `;\n    if (hasChildren) {\n        itemHTML += item.children.map(child => createAccordionItem(child, level + 1)).join('');\n    }\n    else if (item.content) {\n        itemHTML += `<div>${typeof item.content === 'string' ? item.content : ''}</div>`;\n    }\n    itemHTML += `\n            </div>\n        </div>\n    `;\n    return itemHTML;\n}\nfunction setupAccordion() {\n    let accordionContainer = document.getElementById('accordionContainer');\n    if (!accordionContainer) {\n        accordionContainer = document.createElement('div');\n        accordionContainer.id = 'accordionContainer';\n        document.body.appendChild(accordionContainer);\n    }\n    accordionContainer.innerHTML = types_1.accordionData.map(item => createAccordionItem(item)).join('');\n    // Добавим обработчики событий для кнопок триггеров\n    accordionContainer.querySelectorAll('.toggle-button').forEach(button => {\n        button.addEventListener('click', () => {\n            var _a;\n            const body = (_a = button.nextElementSibling) === null || _a === void 0 ? void 0 : _a.nextElementSibling;\n            if (body) {\n                const isExpanded = body.classList.toggle('collapse');\n                button.textContent = isExpanded ? '-' : '+';\n                const contentId = body.id;\n                const contentItem = types_1.accordionData.find(item => item.contentId === contentId);\n                if (contentItem && typeof contentItem.content === 'function') {\n                    contentItem.content();\n                }\n            }\n        });\n    });\n}\nexports.setupAccordion = setupAccordion;\n\n\n//# sourceURL=webpack://colors-catalog/./src/Accordion.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.setupAccordion = void 0;\nconst types_1 = __webpack_require__(/*! ./types */ \"./src/types.ts\");\nfunction createAccordionItem(item, level = 1) {\n    const hasChildren = item.children && item.children.length > 0;\n    const contentId = item.contentId;\n    let itemHTML = `\n        <div class=\"accordion-item\">\n            <button class=\"toggle-button\" type=\"button\" data-toggle=\"collapse\" aria-expanded=\"false\">+</button>\n            <div class=\"${level === 1 ? 'H1accordion' : 'H2accordion'}\">${item.name}</div>\n            <div class=\"accordion-body collapse\" id=\"${contentId}\" aria-expanded=\"false\">\n    `;\n    if (hasChildren) {\n        itemHTML += item.children.map(child => createAccordionItem(child, level + 1)).join('');\n    }\n    else if (item.content) {\n        itemHTML += `<div>${typeof item.content === 'string' ? item.content : ''}</div>`;\n    }\n    itemHTML += `\n            </div>\n        </div>\n    `;\n    return itemHTML;\n}\nfunction setupAccordion() {\n    let accordionContainer = document.getElementById('accordionContainer');\n    if (!accordionContainer) {\n        accordionContainer = document.createElement('div');\n        accordionContainer.id = 'accordionContainer';\n        document.body.appendChild(accordionContainer);\n    }\n    accordionContainer.innerHTML = types_1.accordionData.map(item => createAccordionItem(item)).join('');\n    accordionContainer.querySelectorAll('.toggle-button').forEach(button => {\n        button.addEventListener('click', () => {\n            var _a;\n            const body = (_a = button.nextElementSibling) === null || _a === void 0 ? void 0 : _a.nextElementSibling;\n            if (body) {\n                const isExpanded = body.classList.toggle('collapse');\n                button.textContent = isExpanded ? '-' : '+';\n                const contentId = body.id;\n                const contentItem = types_1.accordionData.find(item => item.contentId === contentId);\n                if (contentItem && typeof contentItem.content === 'function') {\n                    contentItem.content();\n                }\n            }\n        });\n    });\n}\nexports.setupAccordion = setupAccordion;\n\n\n//# sourceURL=webpack://colors-catalog/./src/Accordion.ts?");
 
 /***/ }),
 
@@ -209,10 +209,10 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
 /*!*************************!*\
   !*** ./src/favorite.ts ***!
   \*************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.showFavorites = void 0;\nconst MakeStarred_1 = __webpack_require__(/*! ./MakeStarred */ \"./src/MakeStarred.ts\");\nconst types_1 = __webpack_require__(/*! ./types */ \"./src/types.ts\");\nlet favorites = JSON.parse(localStorage.getItem('favorites') || '[]');\nfunction showFavorites() {\n    const content = document.getElementById('content');\n    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');\n    const favoriteColors = types_1.colors.filter(color => favorites.includes(color.id));\n    // Очищаем содержимое контейнера content перед обновлением\n    content.innerHTML = '';\n    // Если список избранных пуст, добавляем HTML шаблон\n    if (favoriteColors.length === 0) {\n        content.innerHTML = `\n        <div class=\"favBlock\">\n            <img src=\"./assets/illustration.png\" alt=\"Illustration\"/>\n            <p class=\"text-center\">Список избранного пуст</p>\n            <p class=\"text-center-small\">Добавляйте изображения, нажимая на звездочки</p>\n        </div>`;\n    }\n    else {\n        // Иначе, формируем карточки цветов\n        const catalogHtml = favoriteColors.map(color => `\n            <div class=\"card\" data-id=\"${color.id}\">\n                <div class=\"card-body\" style=\"background-color: ${color.hex};\">\n                    <button class=\"favorite-btn rounded-circle starred\">\n                        ★\n                    </button>\n                </div>\n            </div>\n        `).join('');\n        // Создаем элемент для каталога с карточками цветов\n        const catalogContainer = document.createElement('div');\n        catalogContainer.className = 'catalog';\n        catalogContainer.innerHTML = catalogHtml;\n        // Добавляем каталог в content\n        content.appendChild(catalogContainer);\n    }\n    // Вызываем функцию для настройки кнопок избранного\n    (0, MakeStarred_1.setupFavoriteButtons)();\n}\nexports.showFavorites = showFavorites;\n\n\n//# sourceURL=webpack://colors-catalog/./src/favorite.ts?");
+eval("\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.showFavorites = void 0;\nconst MakeStarred_1 = __webpack_require__(/*! ./MakeStarred */ \"./src/MakeStarred.ts\");\nconst types_1 = __webpack_require__(/*! ./types */ \"./src/types.ts\");\nconst illustration_png_1 = __importDefault(__webpack_require__(/*! ./assets/illustration.png */ \"./src/assets/illustration.png\"));\nlet favorites = JSON.parse(localStorage.getItem('favorites') || '[]');\nfunction showFavorites() {\n    const content = document.getElementById('content');\n    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');\n    const favoriteColors = types_1.colors.filter(color => favorites.includes(color.id));\n    content.innerHTML = '';\n    if (favoriteColors.length === 0) {\n        content.innerHTML = `\n        <div class=\"favBlock\">\n<p class=\"text-center\"><img class=\"favIll\" src=\"${illustration_png_1.default}\" alt=\"Illustration\"/>\nСписок избранного пуст</p>\n            <p class=\"text-center-small\">Добавляйте изображения, нажимая на звездочки</p>\n        </div>`;\n    }\n    else {\n        const catalogHtml = favoriteColors.map(color => `\n            <div class=\"card\" data-id=\"${color.id}\">\n                <div class=\"card-body\" style=\"background-color: ${color.hex};\">\n                    <button class=\"favorite-btn rounded-circle starred\">\n                        ★\n                    </button>\n                </div>\n            </div>\n        `).join('');\n        const catalogWrapper = document.createElement('div');\n        catalogWrapper.className = 'catalog-wrapper';\n        const catalogContainer = document.createElement('div');\n        catalogContainer.className = 'catalog';\n        catalogContainer.innerHTML = catalogHtml;\n        catalogWrapper.appendChild(catalogContainer);\n        content.appendChild(catalogWrapper);\n    }\n    (0, MakeStarred_1.setupFavoriteButtons)();\n}\nexports.showFavorites = showFavorites;\n\n\n//# sourceURL=webpack://colors-catalog/./src/favorite.ts?");
 
 /***/ }),
 
@@ -346,6 +346,17 @@ eval("module.exports = \"data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/20
 "use strict";
 eval("module.exports = \"data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%278%27 height=%278%27 viewBox=%270 0 8 8%27%3e%3cpath fill=%27%23fff%27 d=%27M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z%27/%3e%3c/svg%3e\";\n\n//# sourceURL=webpack://colors-catalog/data:image/svg+xml,%253csvg_xmlns=%2527http://www.w3.org/2000/svg%2527_width=%25278%2527_height=%25278%2527_viewBox=%25270_0_8_8%2527%253e%253cpath_fill=%2527%2523fff%2527_d=%2527M6.564.75l-3.59_3.612-1.538-1.55L0_4.26l2.974_2.99L8_2.193z%2527/%253e%253c/svg%253e?");
 
+/***/ }),
+
+/***/ "./src/assets/illustration.png":
+/*!*************************************!*\
+  !*** ./src/assets/illustration.png ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("module.exports = __webpack_require__.p + \"f6e340735ed28404e1a4.png\";\n\n//# sourceURL=webpack://colors-catalog/./src/assets/illustration.png?");
+
 /***/ })
 
 /******/ 	});
@@ -428,6 +439,29 @@ eval("module.exports = \"data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/20
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
